@@ -1,5 +1,6 @@
 import { Component, inject } from "@angular/core";
 import { CounterComponent } from "./components/counter/counter.component";
+import { PersonComponent } from "./components/person/person.component";
 import { COUNT_SIGNAL } from "./signals/counter.signal";
 
 @Component({
@@ -21,9 +22,12 @@ import { COUNT_SIGNAL } from "./signals/counter.signal";
       <app-counter />
       <app-counter [initialValue]="15" />
     </div>
+    <div>
+      <app-person />
+    </div>
   `,
   styles: [],
-  imports: [CounterComponent],
+  imports: [CounterComponent, PersonComponent],
 })
 export class AppComponent {
   protected readonly count = inject(COUNT_SIGNAL);
