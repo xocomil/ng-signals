@@ -1,6 +1,7 @@
 import { Component, inject } from "@angular/core";
 import { CounterComponent } from "./components/counter/counter.component";
 import { PersonComponent } from "./components/person/person.component";
+import { POKE_SERVICE } from "./services/test.service";
 import { COUNT_SIGNAL } from "./signals/counter.signal";
 
 @Component({
@@ -33,4 +34,10 @@ export class AppComponent {
   protected readonly count = inject(COUNT_SIGNAL);
 
   title = "ng-signals";
+
+  #pokeService = inject(POKE_SERVICE);
+
+  callPokeService() {
+    this.#pokeService.callEndpoint("test");
+  }
 }
