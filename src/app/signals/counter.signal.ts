@@ -1,4 +1,4 @@
-import { effect, InjectionToken, SettableSignal, signal } from "@angular/core";
+import { effect, InjectionToken, signal, WritableSignal } from "@angular/core";
 
 const countFactory = () => {
   const count = signal(0);
@@ -9,7 +9,7 @@ const countFactory = () => {
   return count;
 };
 
-export const COUNT_SIGNAL = new InjectionToken<SettableSignal<number>>(
+export const COUNT_SIGNAL = new InjectionToken<WritableSignal<number>>(
   "COUNT_SIGNAL"
 );
 
