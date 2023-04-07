@@ -3,6 +3,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  DestroyRef,
+  inject,
   signal,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
@@ -33,12 +35,25 @@ type Dino = {
     `
       :host {
         display: block;
+
+        margin: 1rem auto;
+        padding: 2rem;
+        border: 1px solid hsl(120deg 90% 30%);
+        border-radius: 0.6rem;
+
+        > div {
+          margin: 0.5rem 0;
+        }
       }
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PersonComponent {
+  #destroyRef = inject(DestroyRef).onDestroy(() => {
+    console.log("PersonComponent destroyed");
+  });
+
   protected readonly dino = signal<Dino>({
     dinoName: "Velociraptor",
     hasFeathers: true,
