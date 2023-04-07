@@ -1,12 +1,18 @@
-import { CommonModule } from "@angular/common";
-import { Component, effect, inject, Input } from "@angular/core";
-import { COUNT_SIGNAL } from "../../signals/counter.signal";
-import { provideCountSignal } from "./../../signals/counter.signal";
+import { CommonModule, DOCUMENT, JsonPipe } from '@angular/common';
+import {
+  Component,
+  DestroyRef,
+  effect,
+  inject,
+  Input,
+  signal,
+} from '@angular/core';
+import { COUNT_SIGNAL, provideCountSignal } from '../../signals/counter.signal';
 
 @Component({
-  selector: "app-counter",
+  selector: 'app-counter',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, JsonPipe],
   template: `
     <div>Current Count: {{ count() }}</div>
     <div>
@@ -14,17 +20,33 @@ import { provideCountSignal } from "./../../signals/counter.signal";
       <button type="button" (click)="decrementCount()">-</button>
       <button type="button" (click)="reset()">Reset</button>
     </div>
+    <div>Mouse Position: {{ mousePosition() | json }}</div>
   `,
   styles: [
     `
       :host {
         display: block;
+
+        margin: 1rem auto;
+        padding: 2rem;
+        border: 1px solid hsl(240deg 90% 50%);
+        border-radius: 0.6rem;
+
+        > div {
+          margin: 0.5rem 0;
+        }
       }
     `,
   ],
   providers: [provideCountSignal()],
 })
 export class CounterComponent {
+  #destroyRef = inject(DestroyRef).onDestroy(() => {
+    console.log('CounterComponent destroyed');
+  });
+
+  protected readonly mousePosition = injectMousePosition();
+
   #initialValue = 0;
   readonly #componentId = window.crypto.randomUUID();
 
@@ -61,3 +83,22 @@ export class CounterComponent {
     this.count.set(this.#initialValue);
   }
 }
+
+const injectMousePosition = () => {
+  const mousePosition = signal({ x: 0, y: 0 });
+  const document = inject(DOCUMENT);
+
+  const updateMousePosition = (mouseEvent: MouseEvent) => {
+    mousePosition.set({ x: mouseEvent.clientX, y: mouseEvent.clientY });
+  };
+
+  effect(() => {
+    document.addEventListener('mousemove', updateMousePosition);
+
+    return () => {
+      document.removeEventListener('mousemove', updateMousePosition);
+    };
+  });
+
+  return () => mousePosition();
+};

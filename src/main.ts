@@ -1,5 +1,48 @@
-import { bootstrapApplication } from "@angular/platform-browser";
-import { AppComponent } from "./app/app.component";
-import { provideCountSignal } from "./app/signals/counter.signal";
+import {
+  bootstrapApplication,
+  provideClientHydration,
+} from '@angular/platform-browser';
+import { provideRouter, Route } from '@angular/router';
+import { AppComponent } from './app/app.component';
+import { provideCountSignal } from './app/signals/counter.signal';
 
-bootstrapApplication(AppComponent, { providers: [provideCountSignal()] });
+const routes: Route[] = [
+  {
+    path: 'counter',
+    loadComponent: () =>
+      import('./app/components/counter/counter.component').then(
+        (m) => m.CounterComponent
+      ),
+  },
+  {
+    path: 'counter2',
+    loadComponent: () =>
+      import('./app/components/counter/counter.component').then(
+        (m) => m.CounterComponent
+      ),
+  },
+  {
+    path: 'person',
+    loadComponent: () =>
+      import('./app/components/person/person.component').then(
+        (m) => m.PersonComponent
+      ),
+  },
+  {
+    path: '',
+    redirectTo: 'counter',
+    pathMatch: 'full',
+  },
+  {
+    path: '**',
+    redirectTo: 'counter',
+  },
+];
+
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideCountSignal(),
+    provideClientHydration(),
+    provideRouter(routes),
+  ],
+});
