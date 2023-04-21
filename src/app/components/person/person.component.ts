@@ -1,13 +1,14 @@
-import { CommonModule } from "@angular/common";
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   computed,
   DestroyRef,
   inject,
+  Input as RouteInput,
   signal,
-} from "@angular/core";
-import { FormsModule } from "@angular/forms";
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 type Dino = {
   dinoName: string;
@@ -17,7 +18,7 @@ type Dino = {
 };
 
 @Component({
-  selector: "app-person",
+  selector: 'app-person',
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: ` <form>
@@ -51,31 +52,38 @@ type Dino = {
 })
 export class PersonComponent {
   #destroyRef = inject(DestroyRef).onDestroy(() => {
-    console.log("PersonComponent destroyed");
+    console.log('PersonComponent destroyed');
   });
 
   protected readonly dino = signal<Dino>({
-    dinoName: "Velociraptor",
+    dinoName: 'Velociraptor',
     hasFeathers: true,
     age: 42,
-    favoriteColor: "blue",
+    favoriteColor: 'blue',
   });
 
+  @RouteInput()
   get dinoName(): string {
     return computed(() => this.dino().dinoName)();
   }
-  set dinoName(value: string) {
+  set dinoName(value: string | undefined | null) {
     this.dino.mutate((dino) => {
-      dino.dinoName = value;
+      dino.dinoName = value ?? dino.dinoName;
     });
   }
 
+  @RouteInput()
   get hasFeathers(): boolean {
     return computed(() => this.dino().hasFeathers)();
   }
-  set hasFeathers(value: boolean) {
+  set hasFeathers(value: string | boolean | null | undefined) {
     this.dino.mutate((dino) => {
-      dino.hasFeathers = value;
+      dino.hasFeathers =
+        typeof value === 'string' ? booleanFromString(value) : value ?? true;
     });
   }
 }
+
+const booleanFromString = (value: string): boolean => {
+  return !['false', '0', 'jason', '-1'].includes(value.toLowerCase());
+};
