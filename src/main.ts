@@ -4,7 +4,6 @@ import {
 } from '@angular/platform-browser';
 import { provideRouter, Route } from '@angular/router';
 import { AppComponent } from './app/app.component';
-import { provideCountSignal } from './app/signals/counter.signal';
 
 const routes: Route[] = [
   {
@@ -40,9 +39,5 @@ const routes: Route[] = [
 ];
 
 bootstrapApplication(AppComponent, {
-  providers: [
-    provideCountSignal(),
-    provideClientHydration(),
-    provideRouter(routes),
-  ],
+  providers: [provideClientHydration(), provideRouter(routes)],
 });

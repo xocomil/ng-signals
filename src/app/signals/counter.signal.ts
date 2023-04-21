@@ -1,35 +1,34 @@
 import {
   DestroyRef,
   effect,
-  inject,
   InjectionToken,
   signal,
   WritableSignal,
 } from '@angular/core';
 
-const countFactory = () => {
+const countFactory = (destroyRef: DestroyRef) => {
   const count = signal(0);
-  const ref = inject(DestroyRef).onDestroy(() => {
+  destroyRef.onDestroy(() => {
     console.log('countFactory destroyed', count());
   });
 
-  console.log('destroy ref', ref);
+  // console.log('destroy ref', ref);
 
   effect(() => {
     console.log('count updated to', count());
-    let seconds = 0;
+    // let seconds = 0;
 
-    const counter = setInterval(() => {
-      seconds++;
+    // const counter = setInterval(() => {
+    //   seconds++;
 
-      console.log(`It has been ${seconds} seconds since the last update.`);
-    }, 1000);
+    //   console.log(`It has been ${seconds} seconds since the last update.`);
+    // }, 1000);
 
-    return () => {
-      console.log('count effect clean up');
+    // return () => {
+    //   console.log('count effect clean up');
 
-      clearInterval(counter);
-    };
+    //   clearInterval(counter);
+    // };
   });
 
   return count;
@@ -41,5 +40,6 @@ export const COUNT_SIGNAL = new InjectionToken<WritableSignal<number>>(
 
 export const provideCountSignal = () => ({
   provide: COUNT_SIGNAL,
-  useFactory: countFactory,
+  useFactory: (destroyRef: DestroyRef) => countFactory(destroyRef),
+  deps: [DestroyRef],
 });
