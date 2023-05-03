@@ -14,6 +14,7 @@ import { PersonComponent } from './components/person/person.component';
     <div>
       <a routerLink="/counter">Counter</a>
       <a routerLink="/person">Person</a>
+      <a routerLink="/testing" [queryParams]="{id: rando}" (click)="newRando()">Testing</a>
     </div>
     <router-outlet />
   `,
@@ -22,4 +23,10 @@ import { PersonComponent } from './components/person/person.component';
 })
 export class AppComponent {
   title = 'ng-signals';
+
+  protected rando = Math.random();
+
+  newRando() {
+    this.rando = Math.random();
+  }
 }
