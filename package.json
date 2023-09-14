@@ -27,11 +27,11 @@
     "@angular-devkit/schematics": "~16.0.0-rc.1",
     "@angular/cli": "~16.0.0-rc.1",
     "@angular/compiler-cli": "^16.0.0-rc.2",
-    "@nrwl/angular": "15.9.2",
+    "@nrwl/angular": "15.9.7",
     "@nrwl/nx-cloud": "latest",
-    "@nrwl/workspace": "15.9.2",
+    "@nrwl/workspace": "15.9.7",
     "@schematics/angular": "~16.0.0-rc.1",
-    "nx": "15.9.2",
+    "nx": "15.9.7",
     "typescript": "~4.9.4"
   }
 }
