@@ -22,15 +22,15 @@
     "zone.js": "~0.13.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^16.0.0-rc.1",
-    "@angular-devkit/core": "~16.0.0-rc.1",
-    "@angular-devkit/schematics": "~16.0.0-rc.1",
-    "@angular/cli": "~16.0.0-rc.1",
+    "@angular-devkit/build-angular": "^18.0.0",
+    "@angular-devkit/core": "~18.2.0",
+    "@angular-devkit/schematics": "~18.2.0",
+    "@angular/cli": "~18.2.0",
     "@angular/compiler-cli": "^16.0.0-rc.2",
     "@nrwl/angular": "15.9.2",
     "@nrwl/nx-cloud": "latest",
     "@nrwl/workspace": "15.9.2",
-    "@schematics/angular": "~16.0.0-rc.1",
+    "@schematics/angular": "~18.2.0",
     "nx": "15.9.2",
     "typescript": "~4.9.4"
   }
